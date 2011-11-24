@@ -1,0 +1,44 @@
+= tc-topts
+Annotation-based command-line option Java library
+
+== Usage
+
+.Implement `java.lang.Runnable` and describe the command executable
+----
+@Command("java -jar sample.jar")
+public final class SampleExecutor implements Runnable
+----
+
+.Define a flag
+----
+@Flag(shortOption = "s", longOption = "size", description = "the size parameter")
+public void setSize(final String size)
+{
+  this.size = Integer.parseInt(size);
+}
+----
+
+.Define a switch
+----
+@Switch(shortOption = "l", longOption = "list-features", description = "List the available features and exit", exit = true)
+public void listFeatures()
+{
+  System.out.println("these are the features");
+}
+----
+
+.Implement the `run()` method
+----
+public void run()
+{
+  System.out.println("Hello, World!);
+}
+
+== TODO
+
+- There seem to be an issue when the same flag is used more than once (only the
+  first one is taken into account)
+- Add more documentation
+
+// vim: set syntax=asciidoc:
+// vim: set spell:
