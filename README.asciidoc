@@ -45,7 +45,6 @@ public void run()
 
 - Get the exit code depending on the `Exception` class
 - Allow non-option arguments to be handled
-- Add AbstractLog4jLauncher
 - Add more documentation
 
 // vim: set syntax=asciidoc:
