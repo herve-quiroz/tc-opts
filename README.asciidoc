@@ -18,7 +18,7 @@ public void setSize(final int size)
 }
 ----
 
-@tc-opts@ will convert the literal parameter to the right Java type according
+`tc-opts` will convert the literal parameter to the right Java type according
 to the method signature
 
 .Define a switch (option without a parameter)
@@ -30,7 +30,7 @@ public void listFeatures()
 }
 ----
 
-If the method returns an @int@ value and the @exit@ property is set to @true@
+If the method returns an `int` value and the `exit` property is set to `true`
 then the returned value is used as the exit code for the application.
 
 .Implement the `run()` method
@@ -43,7 +43,7 @@ public void run()
 
 == TODO
 
-- Get the exit code depending on the @Exception@ class
+- Get the exit code depending on the `Exception` class
 - Allow non-option arguments to be handled
 - Add AbstractLog4jLauncher
 - Add more documentation
