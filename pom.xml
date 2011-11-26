@@ -33,9 +33,9 @@
   </ciManagement>
 
   <scm>
-    <connection>https://bitbucket.org/hquiroz/tc-opts</connection>
-    <developerConnection>scm:hg:file://${basedir}</developerConnection>
-    <url>https://bitbucket.org/hquiroz/tc-opts</url>
+    <connection>git://github.com/herve-quiroz/tc-opts.git</connection>
+    <developerConnection>scm:git:file://${basedir}</developerConnection>
+    <url>https://github.com/herve-quiroz/tc-opts</url>
   </scm>
 
   <!-- ===================================================================== -->
