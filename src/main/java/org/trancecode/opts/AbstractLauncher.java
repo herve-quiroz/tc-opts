@@ -15,6 +15,8 @@
  */
 package org.trancecode.opts;
 
+import com.google.common.base.Preconditions;
+
 /**
  * Convenient base class for common use cases (help, quiet and verbose
  * switches).
@@ -23,6 +25,9 @@ package org.trancecode.opts;
  */
 public abstract class AbstractLauncher
 {
+    private boolean quiet;
+    private boolean verbose;
+
     @Option(shortName = "h", longName = "help", description = "Print help and exit", exit = true)
     public final void printSyntaxAndExit()
     {
@@ -32,12 +37,24 @@ public abstract class AbstractLauncher
     @Option(shortName = "q", longName = "quiet", description = "Display less information")
     public void setQuiet()
     {
-        // TODO set quiet
+        Preconditions.checkArgument(!verbose, "cannot set both 'quiet' and 'verbose' switches");
+        quiet = true;
     }
 
     @Option(shortName = "v", longName = "verbose", description = "Display more information")
     public void setVerbose()
     {
-        // TODO set verbose
+        Preconditions.checkArgument(!quiet, "cannot set both 'quiet' and 'verbose' switches");
+        verbose = true;
+    }
+
+    public final boolean isQuiet()
+    {
+        return quiet;
+    }
+
+    public final boolean isVerbose()
+    {
+        return verbose;
     }
 }
