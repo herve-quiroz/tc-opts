@@ -9,23 +9,29 @@ Annotation-based command-line option Java library
 public final class SampleExecutor implements Runnable
 ----
 
-.Define a flag
+.Define an option with a parameter
 ----
-@Flag(shortOption = "s", longOption = "size", description = "the size parameter")
-public void setSize(final String size)
+@Option(shortName = "s", longName = "size", description = "the size parameter")
+public void setSize(final int size)
 {
-  this.size = Integer.parseInt(size);
+  this.size = size;
 }
 ----
 
-.Define a switch
+@tc-opts@ will convert the literal parameter to the right Java type according
+to the method signature
+
+.Define a switch (option without a parameter)
 ----
-@Switch(shortOption = "l", longOption = "list-features", description = "List the available features and exit", exit = true)
+@Option(shortName = "l", longName = "list-features", description = "List the available features and exit", exit = true)
 public void listFeatures()
 {
   System.out.println("these are the features");
 }
 ----
+
+If the method returns an @int@ value and the @exit@ property is set to @true@
+then the returned value is used as the exit code for the application.
 
 .Implement the `run()` method
 ----
@@ -37,8 +43,9 @@ public void run()
 
 == TODO
 
-- There seem to be an issue when the same flag is used more than once (only the
-  first one is taken into account)
+- Get the exit code depending on the @Exception@ class
+- Allow non-option arguments to be handled
+- Add AbstractLog4jLauncher
 - Add more documentation
 
 // vim: set syntax=asciidoc:

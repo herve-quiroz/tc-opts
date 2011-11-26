@@ -27,13 +27,17 @@ import java.lang.annotation.Target;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface Switch
+public @interface Option
 {
-    String description();
+    String description() default "";
 
-    String shortOption();
+    String shortName() default "";
 
-    String longOption();
+    String longName() default "";
+
+    boolean required() default false;
 
     boolean exit() default false;
+
+    boolean multiple() default false;
 }

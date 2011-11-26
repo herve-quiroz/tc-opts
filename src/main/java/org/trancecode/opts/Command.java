@@ -29,11 +29,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface Command
 {
-    boolean helpSwitch() default true;
-
-    boolean quietSwitch() default true;
-
     String value();
-
-    boolean verboseSwitch() default true;
 }

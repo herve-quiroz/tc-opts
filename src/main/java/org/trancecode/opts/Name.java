@@ -26,14 +26,8 @@ import java.lang.annotation.Target;
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
-public @interface Flag
+@Target(ElementType.PARAMETER)
+public @interface Name
 {
-    String description() default "";
-
-    String shortOption() default "";
-
-    String longOption() default "";
-
-    boolean required() default false;
+    String value();
 }
