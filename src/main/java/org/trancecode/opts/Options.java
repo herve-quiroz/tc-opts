@@ -29,6 +29,8 @@ import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.trancecode.opts.converter.StringConverters;
+
 /**
  * @author Herve Quiroz
  */
@@ -142,30 +144,7 @@ public final class Options
                 Preconditions.checkArgument(argIndex < args.length - 1, "missing an argument for option %s", arg);
                 final String literalParameter = args[++argIndex];
                 final Class<?> requiredType = method.getParameterTypes()[0];
-                if (requiredType.equals(String.class))
-                {
-                    parameters[0] = literalParameter;
-                }
-                else if (requiredType.equals(Boolean.TYPE) || requiredType.equals(Boolean.class))
-                {
-                    parameters[0] = Boolean.parseBoolean(literalParameter);
-                }
-                else if (requiredType.equals(Double.TYPE) || requiredType.equals(Double.class))
-                {
-                    parameters[0] = Double.parseDouble(literalParameter);
-                }
-                else if (requiredType.equals(Integer.TYPE) || requiredType.equals(Integer.class))
-                {
-                    parameters[0] = Integer.parseInt(literalParameter);
-                }
-                else if (requiredType.equals(Long.TYPE) || requiredType.equals(Long.class))
-                {
-                    parameters[0] = Long.parseLong(literalParameter);
-                }
-                else
-                {
-                    throw new UnsupportedOperationException("unsupported argument type: " + requiredType.getName());
-                }
+                parameters[0] = StringConverters.convert(literalParameter, requiredType);
             }
             else
             {
