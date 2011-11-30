@@ -244,7 +244,7 @@ public final class Options
             }
         }
 
-        throw new IllegalStateException(String.format("method is missing %s: %s", Name.class, method));
+        return "VALUE";
     }
 
     private static CharSequence getSyntax(final Class<?> launcherClass)
