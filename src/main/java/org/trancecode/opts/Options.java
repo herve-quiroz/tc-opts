@@ -157,6 +157,10 @@ public final class Options
                 {
                     parameters[0] = Boolean.parseBoolean(literalParameter);
                 }
+                else if (requiredType.equals(Double.TYPE) || requiredType.equals(Double.class))
+                {
+                    parameters[0] = Double.parseDouble(literalParameter);
+                }
                 else
                 {
                     throw new UnsupportedOperationException("unsupported argument type: " + requiredType.getName());

@@ -50,6 +50,7 @@ public final class OptionsTest
         private boolean booleanValue;
         private int intValue;
         private String stringValue;
+        private double doubleValue;
 
         @Option(shortName = "b", description = "some boolean value")
         public void setBooleanValue(@Name("VALUE") final boolean booleanValue)
@@ -69,6 +70,12 @@ public final class OptionsTest
             this.stringValue = stringValue;
         }
 
+        @Option(shortName = "d", description = "some String value")
+        public void setDoubleValue(final Double value)
+        {
+            this.doubleValue = value;
+        }
+
         @Override
         public void run()
         {
@@ -80,10 +87,11 @@ public final class OptionsTest
     public void testLauncher2()
     {
         final Launcher2 launcher = Options.execute(Launcher2.class,
-                new String[] { "-b", "true", "--int", "123", "--string", "abc" }).getKey();
+                new String[] { "-b", "true", "--int", "123", "--string", "abc", "-d", "1.0" }).getKey();
         Assert.assertEquals(launcher.booleanValue, true);
         Assert.assertEquals(launcher.intValue, 123);
         Assert.assertEquals(launcher.stringValue, "abc");
+        Assert.assertEquals(launcher.doubleValue, 1.0);
     }
 
     @Test
