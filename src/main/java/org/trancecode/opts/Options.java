@@ -66,7 +66,8 @@ public final class Options
                         "an @Option method can only return 'void' or 'int': %s", method);
                 Preconditions.checkState(findOptionWithShortName(options, option.shortName()) == null,
                         "duplicate option with short name -%s", option.shortName());
-                Preconditions.checkState(findOptionWithLongName(options, option.longName()) == null,
+                Preconditions.checkState(
+                        option.longName().equals("") || findOptionWithLongName(options, option.longName()) == null,
                         "duplicate option with long name --%s", option.longName());
                 options.put(option, method);
             }
