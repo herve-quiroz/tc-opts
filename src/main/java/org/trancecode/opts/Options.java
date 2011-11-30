@@ -146,14 +146,6 @@ public final class Options
                 {
                     parameters[0] = literalParameter;
                 }
-                else if (requiredType.equals(Integer.TYPE) || requiredType.equals(Integer.class))
-                {
-                    parameters[0] = Integer.parseInt(literalParameter);
-                }
-                else if (requiredType.equals(Long.TYPE) || requiredType.equals(Long.class))
-                {
-                    parameters[0] = Long.parseLong(literalParameter);
-                }
                 else if (requiredType.equals(Boolean.TYPE) || requiredType.equals(Boolean.class))
                 {
                     parameters[0] = Boolean.parseBoolean(literalParameter);
@@ -161,6 +153,14 @@ public final class Options
                 else if (requiredType.equals(Double.TYPE) || requiredType.equals(Double.class))
                 {
                     parameters[0] = Double.parseDouble(literalParameter);
+                }
+                else if (requiredType.equals(Integer.TYPE) || requiredType.equals(Integer.class))
+                {
+                    parameters[0] = Integer.parseInt(literalParameter);
+                }
+                else if (requiredType.equals(Long.TYPE) || requiredType.equals(Long.class))
+                {
+                    parameters[0] = Long.parseLong(literalParameter);
                 }
                 else
                 {
