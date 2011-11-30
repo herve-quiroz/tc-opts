@@ -25,7 +25,8 @@ public final class PrimitiveStringConverter extends AbstractStringConverter
     public PrimitiveStringConverter()
     {
         super(Boolean.TYPE, Boolean.class, Byte.TYPE, Byte.class, Character.TYPE, Character.class, Double.TYPE,
-                Double.class, Float.TYPE, Float.class, Long.TYPE, Long.class, Short.TYPE, Short.class);
+                Double.class, Float.TYPE, Float.class, Integer.TYPE, Integer.class, Long.TYPE, Long.class, Short.TYPE,
+                Short.class);
     }
 
     @Override
@@ -55,6 +56,11 @@ public final class PrimitiveStringConverter extends AbstractStringConverter
         if (type.equals(Float.TYPE) || type.equals(Float.class))
         {
             return Float.parseFloat(string);
+        }
+
+        if (type.equals(Integer.TYPE) || type.equals(Integer.class))
+        {
+            return Integer.parseInt(string);
         }
 
         if (type.equals(Long.TYPE) || type.equals(Long.class))
