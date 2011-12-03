@@ -179,12 +179,47 @@ public static void main(String[] args)
 }
 ----
 
+== Maven configuration
+
+To add `tc-opts` to your http://maven.apache.org/[Maven] project, add the
+following to the POM:
+
+----
+  ...
+
+  <repositories>
+
+    <repository>
+      <id>snapshots.trancecode.org</id>
+      <url>http://maven.trancecode.org/releases/</url>
+    </repository>
+
+  </repositories>
+
+  ...
+
+  <dependencies>
+
+    ...
+
+    <dependency>
+      <groupId>org.trancecode</groupId>
+      <artifactId>tc-opts</artifactId>
+      <version>0.2.0</version>
+    </dependency>
+
+    ...
+
+  </dependencies>
+
+  ...
+----
+
 == TODO
 
 - Improve argument parsing, e.g. KEY=VALUE
 - Get the exit code depending on the `Exception` class
 - Allow non-option arguments to be handled
-- Add documentation: Maven setup
 
 // vim: set syntax=asciidoc:
 // vim: set spell:
