@@ -143,7 +143,7 @@ public final class OptionsTest
         private int size;
 
         @Option(shortName = "o", description = "option")
-        @Argument(label = "NAME=SIZE", pattern = "(([a-zA-Z]+)=([0-9]+)")
+        @Argument(label = "NAME=SIZE", pattern = "([a-zA-Z]+)=([0-9]+)")
         public void advancedArgument(final String name, final int size)
         {
             this.name = name;
