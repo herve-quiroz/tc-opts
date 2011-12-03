@@ -60,8 +60,6 @@ public final class Options
             {
                 Preconditions.checkState(!option.description().isEmpty(), "@Option is missing a description: %s",
                         getOptionDisplayName(option));
-                Preconditions.checkState(method.getParameterTypes().length <= 1,
-                        "an @Option method cannot have more than one parameter: %s", method);
                 Preconditions.checkState(
                         method.getReturnType().equals(Void.TYPE) || method.getReturnType().equals(Integer.TYPE),
                         "an @Option method can only return 'void' or 'int': %s", method);
@@ -194,15 +192,13 @@ public final class Options
 
     private static Object[] getParameters(final Method method, final String argument)
     {
-        if (method.getParameterTypes().length > 0)
-        {
-            final Class<?> requiredType = method.getParameterTypes()[0];
-            return new Object[] { StringConverters.convert(argument, requiredType) };
-        }
-        else
+        if (method.getParameterTypes().length == 0)
         {
             return new Object[0];
         }
+
+        final Class<?> requiredType = method.getParameterTypes()[0];
+        return new Object[] { StringConverters.convert(argument, requiredType) };
     }
 
     private static int getExitCode(final Object code)
