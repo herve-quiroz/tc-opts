@@ -302,6 +302,7 @@ public final class Options
                     }
                 }
 
+                line.append(" ");
                 while (line.length() < 30)
                 {
                     line.append(" ");
