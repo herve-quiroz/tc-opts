@@ -184,7 +184,7 @@ public static void main(String[] args)
 - Improve argument parsing, e.g. KEY=VALUE
 - Get the exit code depending on the `Exception` class
 - Allow non-option arguments to be handled
-- Add more documentation
+- Add documentation: Maven setup
 
 // vim: set syntax=asciidoc:
 // vim: set spell:
