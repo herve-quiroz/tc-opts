@@ -24,7 +24,6 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -137,19 +136,17 @@ public final class Options
                     "duplicate option: %s", arg);
 
             final Method method = options.get(option);
-            final Object[] parameters;
+            final String optionArgument;
             if (method.getParameterTypes().length > 0)
             {
-                parameters = new Object[1];
                 Preconditions.checkArgument(argIndex < args.length - 1, "missing an argument for option %s", arg);
-                final String literalParameter = args[++argIndex];
-                final Class<?> requiredType = method.getParameterTypes()[0];
-                parameters[0] = StringConverters.convert(literalParameter, requiredType);
+                optionArgument = args[++argIndex];
             }
             else
             {
-                parameters = new Object[0];
+                optionArgument = null;
             }
+            final Object[] parameters = getParameters(method, optionArgument);
             methodsToInvoke.put(method, parameters);
         }
 
@@ -195,6 +192,19 @@ public final class Options
         return Maps.immutableEntry(launcher, 0);
     }
 
+    private static Object[] getParameters(final Method method, final String argument)
+    {
+        if (method.getParameterTypes().length > 0)
+        {
+            final Class<?> requiredType = method.getParameterTypes()[0];
+            return new Object[] { StringConverters.convert(argument, requiredType) };
+        }
+        else
+        {
+            return new Object[0];
+        }
+    }
+
     private static int getExitCode(final Object code)
     {
         if (code == null)
@@ -214,13 +224,10 @@ public final class Options
     {
         Preconditions.checkNotNull(method);
 
-        for (final Annotation annotation : method.getParameterAnnotations()[0])
+        final Argument argument = method.getAnnotation(Argument.class);
+        if (argument != null)
         {
-            if (annotation.annotationType().equals(Name.class))
-            {
-                final Name name = (Name) annotation;
-                return name.value();
-            }
+            return argument.label();
         }
 
         return "VALUE";

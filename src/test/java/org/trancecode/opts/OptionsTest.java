@@ -53,19 +53,22 @@ public final class OptionsTest
         private double doubleValue;
 
         @Option(shortName = "b", description = "some boolean value")
-        public void setBooleanValue(@Name("VALUE") final boolean booleanValue)
+        @Argument(label = "VALUE")
+        public void setBooleanValue(final boolean booleanValue)
         {
             this.booleanValue = booleanValue;
         }
 
         @Option(longName = "int", description = "some int value")
-        public void setIntValue(@Name("VALUE") final int intValue)
+        @Argument(label = "NUMBER")
+        public void setIntValue(final int intValue)
         {
             this.intValue = intValue;
         }
 
         @Option(shortName = "s", longName = "string", description = "some String value")
-        public void setStringValue(@Name("VALUE") final String stringValue)
+        @Argument(label = "VALUE")
+        public void setStringValue(final String stringValue)
         {
             this.stringValue = stringValue;
         }
