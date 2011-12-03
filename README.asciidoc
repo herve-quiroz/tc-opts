@@ -1,5 +1,29 @@
 = tc-topts
-Annotation-based command-line option Java library
+Annotation-based command-line option parsing library in Java
+
+== Purpose
+
+`tc-opts` is an annotation-based command-line option parsing library in Java.
+
+Why yet another one? What are the main benefits of this library?
+
+- *Annotation-based*: no need to build options through some DSL or many lines
+  of setter invocation
+- *Only one syntax* type is supported: yes, this is a feature, no choosing
+  between POSIX or whatever options, think of it as convention over
+  configuration
+- Very *lightweight*: not many classes to learn about, in fact the whole
+  documentation fits into a simple README file
+- Only *two concepts* to grasp: options (the `--something`) and option
+  arguments (the thing that may be found after the `--something` on the
+  command-line)
+- Uses *unchecked exceptions* from the standard API to reports errors
+  (`IllegalStateException` for configuration errors, `IllegalArgumentException`
+  for command-line argument errors)
+- *General-purpose base classes* are provided: an abstract class supports `-q`
+  (`--quiet`), `-v` (`--verbose`), `-h` (`--help`) out of the box so you don't
+  rewrite the same exact code in each command-line application you develop (it
+  even comes with automatic Log4j level settings for those who need it)
 
 == Usage
 
