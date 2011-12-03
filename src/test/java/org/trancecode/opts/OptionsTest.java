@@ -38,7 +38,7 @@ public final class OptionsTest
     }
 
     @Test
-    public void testLauncher1()
+    public void simpleTest()
     {
         final Launcher1 launcher = Options.execute(Launcher1.class, new String[0]).getKey();
         Assert.assertTrue(launcher.run);
@@ -87,7 +87,7 @@ public final class OptionsTest
     }
 
     @Test
-    public void testLauncher2()
+    public void optionArgumentConversion()
     {
         final Launcher2 launcher = Options.execute(Launcher2.class,
                 new String[] { "-b", "true", "--int", "123", "--string", "abc", "-d", "1.0" }).getKey();
@@ -129,7 +129,7 @@ public final class OptionsTest
     }
 
     @Test
-    public void testLauncher3()
+    public void exit()
     {
         final Launcher3 launcher = Options.execute(Launcher3.class, new String[] { "--exit" }).getKey();
         Assert.assertTrue(launcher.exit);
