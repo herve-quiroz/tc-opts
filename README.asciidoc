@@ -205,7 +205,7 @@ following to the POM:
     <dependency>
       <groupId>org.trancecode</groupId>
       <artifactId>tc-opts</artifactId>
-      <version>0.2.0</version>
+      <version>0.3.0</version>
     </dependency>
 
     ...
