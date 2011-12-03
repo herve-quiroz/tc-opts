@@ -24,6 +24,8 @@ Why yet another one? What are the main benefits of this library?
   (`--quiet`), `-v` (`--verbose`), `-h` (`--help`) out of the box so you don't
   rewrite the same exact code in each command-line application you develop (it
   even comes with automatic Log4j level settings for those who need it)
+- Option arguments may be split using *regular expressions*: everybody knows
+  that regex support increases the coolness factor of any library by over 9000.
 
 == Usage
 
@@ -37,7 +39,7 @@ public final class SampleExecutor implements Runnable
 === Define an option with a parameter
 
 ----
-@Option(shortName = "s", longName = "size", description = "the size parameter")
+@Option(shortName = "s", longName = "size", description = "set the size")
 public void setSize(final int size)
 {
   this.size = size;
@@ -45,9 +47,71 @@ public void setSize(final int size)
 ----
 
 `tc-opts` will convert the literal parameter to the right Java type according
-to the method signature.
+to the method signature. By default, all primitive types are supported.
+
+You can add your own conversion support by implementing the `StringConverter`
+interface. The converters are discovered at run-time using a
+http://docs.oracle.com/javase/6/docs/api/java/util/ServiceLoader.html[`ServiceLoader`].
+
+By default, the option argument will display as `LABEL` in the command-line
+syntax help. You can change this label by using the `Argument` annotation:
+
+----
+@Option(shortName = "s", longName = "size", description = "set the size")
+@Argument(label = "NUMBER")
+public void setSize(final int size)
+{
+  this.size = size;
+}
+----
+
+Then the help will display this:
+
+----
+ -s --size NUMBER              set the size
+----
+
+`tc-opts` may also split the option argument into several parts according to a
+regular expression:
+
+----
+@Option(shortName = "o", description = "set some option")
+@Argument(label = "NAME=SIZE", pattern = "([a-zA-Z]+)=([0-9]+)")
+public void someAdvancedOption(final String name, final int size)
+{
+  map.put(name, size);
+}
+----
+
+You can allow a given option to be used several times on the same command-line:
+
+----
+@Option(shortName = "a", description = "add something to the list", multiple = true)
+@Argument(label = "NAME")
+public void addSomething(final String name)
+{
+  list.add(name);
+}
+----
+
+Then the help will display this:
+
+----
+ -a NAME [+]              add something to the list
+----
 
 === Define a switch (option without a parameter)
+
+----
+@Option(shortName = "t", longName = "turbo", description = "Sets the turbo mode")
+public void setTurboMode()
+{
+  turbo = true;
+}
+----
+
+If the `exit` property is set to `true` then the application will exit after
+the annotated method is invoked:
 
 ----
 @Option(shortName = "l", longName = "list-features", description = "List the available features and exit", exit = true)
@@ -58,13 +122,60 @@ public void listFeatures()
 ----
 
 If the method returns an `int` value and the `exit` property is set to `true`
-then the returned value is used as the exit code for the application.
+then the returned value is used as the exit code for the application:
+
+----
+@Option(shortName = "c", longName = "check-something", description = "Check the availability of some feature", exit = true)
+public int checkFeature()
+{
+  if (someCondition())
+  {
+    System.err.println("It will work");
+    return 0;
+  }
+  else
+  {
+    System.err.println("Not good");
+    return 1;
+  }
+}
+----
 
 === Implement the `run()` method
+
 ----
 public void run()
 {
   System.out.println("Hello, World!);
+}
+----
+
+The `run()` method will get invoked after all arguments from the command-line
+have be handled.
+
+=== Implement the static `main()` method
+
+----
+public static void main(String[] args)
+{
+  Options.execute(SampleExecutor.class, args);
+}
+----
+
+The `execute()` method returns the configured object that has been run as well
+as the return code. You can use this information to do further testing before
+exiting the JVM.
+
+----
+public static void main(String[] args)
+{
+  Entry<SampleExecutor, Integer> result = Options.execute(SampleExecutor.class, args);
+  ...
+  SampleExecutor executor = result.getKey();
+  // Use the executor
+  ...
+  int exitCode = result.getValue();
+  System.exit(exitCode);
 }
 ----
 
