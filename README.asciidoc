@@ -217,7 +217,6 @@ following to the POM:
 
 == TODO
 
-- Improve argument parsing, e.g. KEY=VALUE
 - Get the exit code depending on the `Exception` class
 - Allow non-option arguments to be handled
 
