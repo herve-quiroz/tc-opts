@@ -97,6 +97,12 @@ public final class OptionsTest
         Assert.assertEquals(launcher.doubleValue, 1.0);
     }
 
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void argumentConversionError()
+    {
+        Options.execute(Launcher2.class, new String[] { "--int", "abc" });
+    }
+
     @Test
     public void printSyntax()
     {
