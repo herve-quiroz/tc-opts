@@ -158,7 +158,7 @@ public final class OptionsTest
     }
 
     @Test
-    public void testLauncher4()
+    public void optionWithMultipleArguments()
     {
         final Launcher4 launcher = Options.execute(Launcher4.class, new String[] { "-o", "abc=4" }).getKey();
         Assert.assertEquals(launcher.name, "abc");
@@ -166,13 +166,13 @@ public final class OptionsTest
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testLauncher4Error1()
+    public void optionWithMultipleArgumentsPatternError()
     {
         Options.execute(Launcher4.class, new String[] { "-o", "abc" }).getKey();
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testLauncher4Error2()
+    public void optionWithMultipleArgumentsConversionError()
     {
         Options.execute(Launcher4.class, new String[] { "-o", "abc=def" }).getKey();
     }
