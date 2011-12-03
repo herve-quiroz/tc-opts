@@ -27,6 +27,8 @@ import com.google.common.collect.Multimap;
 import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import org.trancecode.opts.converter.StringConverters;
 
@@ -68,6 +70,19 @@ public final class Options
                 Preconditions.checkState(
                         option.longName().equals("") || findOptionWithLongName(options, option.longName()) == null,
                         "duplicate option with long name --%s", option.longName());
+                final Argument argument = method.getAnnotation(Argument.class);
+                if (argument != null)
+                {
+                    try
+                    {
+                        Pattern.compile(argument.pattern());
+                    }
+                    catch (final PatternSyntaxException e)
+                    {
+                        throw new IllegalStateException(String.format("argument pattern is invalid for %s: %s", method,
+                                argument.pattern()), e);
+                    }
+                }
                 options.put(option, method);
             }
         }
@@ -190,6 +205,17 @@ public final class Options
         return Maps.immutableEntry(launcher, 0);
     }
 
+    private static String getOptionArgumentPattern(final Method method)
+    {
+        final Argument argument = method.getAnnotation(Argument.class);
+        if (argument != null)
+        {
+            return argument.pattern();
+        }
+
+        return "(.*)";
+    }
+
     private static Object[] getParameters(final Method method, final String argument)
     {
         if (method.getParameterTypes().length == 0)
@@ -197,8 +223,16 @@ public final class Options
             return new Object[0];
         }
 
-        final Class<?> requiredType = method.getParameterTypes()[0];
-        return new Object[] { StringConverters.convert(argument, requiredType) };
+        final String pattern = getOptionArgumentPattern(method);
+        final Object[] parameters = new Object[method.getParameterTypes().length];
+        for (int i = 0; i < parameters.length; i++)
+        {
+            final String argumentPart = argument.replaceAll(pattern, "$" + (i + 1));
+            final Class<?> requiredType = method.getParameterTypes()[i];
+            parameters[i] = StringConverters.convert(argumentPart, requiredType);
+        }
+
+        return parameters;
     }
 
     private static int getExitCode(final Object code)
