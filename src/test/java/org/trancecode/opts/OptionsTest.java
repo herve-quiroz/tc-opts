@@ -129,4 +129,45 @@ public final class OptionsTest
         Assert.assertTrue(launcher.exit);
         Assert.assertFalse(launcher.run);
     }
+
+    @Command("java -jar something.jar")
+    public static final class Launcher4 implements Runnable
+    {
+        private String name;
+        private int size;
+
+        @Option(shortName = "o", description = "option")
+        @Argument(label = "NAME=SIZE", pattern = "(([a-zA-Z]+)=([0-9]+)")
+        public void advancedArgument(final String name, final int size)
+        {
+            this.name = name;
+            this.size = size;
+        }
+
+        @Override
+        public void run()
+        {
+            // Nothing
+        }
+    }
+
+    @Test
+    public void testLauncher4()
+    {
+        final Launcher4 launcher = Options.execute(Launcher4.class, new String[] { "-o", "abc=4" }).getKey();
+        Assert.assertEquals(launcher.name, "abc");
+        Assert.assertEquals(launcher.size, 4);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testLauncher4Error1()
+    {
+        Options.execute(Launcher4.class, new String[] { "-o", "abc" }).getKey();
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testLauncher4Error2()
+    {
+        Options.execute(Launcher4.class, new String[] { "-o", "abc=def" }).getKey();
+    }
 }
