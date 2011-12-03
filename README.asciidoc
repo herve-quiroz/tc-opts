@@ -219,6 +219,7 @@ following to the POM:
 
 - Get the exit code depending on the `Exception` class
 - Allow non-option arguments to be handled
+- Sort the options in the syntax help
 
 // vim: set syntax=asciidoc:
 // vim: set spell:
