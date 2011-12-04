@@ -1,4 +1,5 @@
 org.trancecode.opts.converter.StringStringConverter
+org.trancecode.opts.converter.FileStringConverter
 org.trancecode.opts.converter.PrimitiveStringConverter
 org.trancecode.opts.converter.QNameStringConverter
 org.trancecode.opts.converter.UriStringConverter

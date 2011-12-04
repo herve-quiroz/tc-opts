@@ -68,4 +68,10 @@ public final class StringConvertersTest
                 "http://www.trancecode.org/"));
         Assert.assertEquals(StringConverters.convert("pom.xml", URL.class), new File("pom.xml").toURI().toURL());
     }
+
+    @Test
+    public void fileValue()
+    {
+        Assert.assertEquals(StringConverters.convert("pom.xml", File.class), new File("pom.xml").getAbsoluteFile());
+    }
 }
