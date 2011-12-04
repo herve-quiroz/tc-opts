@@ -224,3 +224,25 @@ following to the POM:
 - Allow non-option arguments to be handled
 - Sort the options in the syntax help
 
+== Release notes
+
+=== 0.3.1
+
+- Added support for new option argument types: `QName`, `URI`, `URL`
+
+=== 0.3.0
+
+- Added `Argument` annotation to replace `Name`
+- Allow the use of regular expressions to define constraints for option
+  arguments
+- Allow the use of regular expressions to define rules to split option
+  arguments
+- Added `StringConverter` to provide a convenient, decoupled way to convert
+  option arguments to method parameters
+- Basic primitive types are supported out of the box
+
+=== 0.2.0
+
+- First release
+- Support for `Option` annotation
+- Basic `String` conversion support
