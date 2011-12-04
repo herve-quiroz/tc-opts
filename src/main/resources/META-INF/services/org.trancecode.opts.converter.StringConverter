@@ -1,5 +1,5 @@
 org.trancecode.opts.converter.StringStringConverter
-org.trancecode.opts.converter.PrimitiveStringConverter
 org.trancecode.opts.converter.QNameStringConverter
+org.trancecode.opts.converter.PrimitiveStringConverter
 org.trancecode.opts.converter.UriStringConverter
 org.trancecode.opts.converter.UrlStringConverter
