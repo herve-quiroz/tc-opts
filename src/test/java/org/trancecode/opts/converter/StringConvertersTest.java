@@ -15,7 +15,9 @@
  */
 package org.trancecode.opts.converter;
 
+import java.io.File;
 import java.net.URI;
+import java.net.URL;
 
 import javax.xml.namespace.QName;
 
@@ -57,5 +59,13 @@ public final class StringConvertersTest
     public void uriValue()
     {
         Assert.assertEquals(StringConverters.convert("abc://def/ghi", URI.class), URI.create("abc://def/ghi"));
+    }
+
+    @Test
+    public void urlValue() throws Exception
+    {
+        Assert.assertEquals(StringConverters.convert("http://www.trancecode.org/", URL.class), new URL(
+                "http://www.trancecode.org/"));
+        Assert.assertEquals(StringConverters.convert("pom.xml", URL.class), new File("pom.xml").toURI().toURL());
     }
 }
