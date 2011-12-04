@@ -1,6 +1,9 @@
 = tc-topts
 Annotation-based command-line option parsing library in Java
 
+// vim: set syntax=asciidoc:
+// vim: set spell:
+
 == Purpose
 
 `tc-opts` is an annotation-based command-line option parsing library in Java.
@@ -221,5 +224,3 @@ following to the POM:
 - Allow non-option arguments to be handled
 - Sort the options in the syntax help
 
-// vim: set syntax=asciidoc:
-// vim: set spell:
