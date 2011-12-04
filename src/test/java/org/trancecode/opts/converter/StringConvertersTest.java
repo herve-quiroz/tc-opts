@@ -15,6 +15,8 @@
  */
 package org.trancecode.opts.converter;
 
+import java.net.URI;
+
 import javax.xml.namespace.QName;
 
 import org.testng.Assert;
@@ -49,5 +51,11 @@ public final class StringConvertersTest
     public void qnameValue()
     {
         Assert.assertEquals(StringConverters.convert("{abc}def", QName.class), new QName("abc", "def"));
+    }
+
+    @Test
+    public void uriValue()
+    {
+        Assert.assertEquals(StringConverters.convert("abc://def/ghi", URI.class), URI.create("abc://def/ghi"));
     }
 }
