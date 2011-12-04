@@ -15,6 +15,8 @@
  */
 package org.trancecode.opts.converter;
 
+import javax.xml.namespace.QName;
+
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -41,5 +43,11 @@ public final class StringConvertersTest
     public void nonExplicitType()
     {
         StringConverters.convert("1", Number.class);
+    }
+
+    @Test
+    public void qnameValue()
+    {
+        Assert.assertEquals(StringConverters.convert("{abc}def", QName.class), new QName("abc", "def"));
     }
 }
