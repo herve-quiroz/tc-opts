@@ -226,9 +226,10 @@ following to the POM:
 
 == Release notes
 
-=== 0.3.1
+=== 0.4.0
 
-- Added support for new option argument types: `QName`, `URI`, `URL`
+- Added support for new option argument types: `QName`, `URI`, `URL`, `File`
+- Fixed an issue with options with no short name
 
 === 0.3.0
 
