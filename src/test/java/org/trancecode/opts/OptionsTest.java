@@ -176,4 +176,32 @@ public final class OptionsTest
     {
         Options.execute(Launcher4.class, new String[] { "-o", "abc=def" }).getKey();
     }
+
+    @Command("java -jar something.jar")
+    public static final class Launcher5 implements Runnable
+    {
+        @Option(longName = "one", description = "1")
+        public void setOne()
+        {
+            // nothing
+        }
+
+        @Option(longName = "two", description = "2")
+        public void setTwo()
+        {
+            // nothing
+        }
+
+        @Override
+        public void run()
+        {
+            // nothing
+        }
+    }
+
+    @Test
+    public void multipleOptionsWithNoShortName()
+    {
+        Options.execute(Launcher5.class, new String[] { "--one", "--two" });
+    }
 }
