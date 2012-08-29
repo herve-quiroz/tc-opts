@@ -188,6 +188,11 @@ public final class Options
                     throw new IllegalStateException("missing required option: " + option);
                 }
 
+                if (!methodsToInvoke.containsKey(method))
+                {
+                    continue;
+                }
+
                 for (final Object[] parameter : methodsToInvoke.get(method))
                 {
                     final Object result;
