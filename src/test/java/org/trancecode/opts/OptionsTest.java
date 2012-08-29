@@ -226,4 +226,34 @@ public final class OptionsTest
     {
         Options.execute(RequiredOption.class, new String[] {});
     }
+
+    @Command("java -jar something.jar")
+    public static final class ExtendingAbstractClass extends AbstractLauncher implements Runnable
+    {
+        public static boolean quiet = false;
+
+        @Override
+        public void setQuiet()
+        {
+            quiet = true;
+        }
+
+        @Override
+        public void run()
+        {
+            // nothing
+        }
+    }
+
+    @Test
+    public void extendingAbstractClass()
+    {
+        // check that the option from parent class is handled
+        Options.execute(ExtendingAbstractClass.class, new String[] { "-v" });
+
+        // check that the option from child class is handled (although we did
+        // not copy the annotations)
+        Options.execute(ExtendingAbstractClass.class, new String[] { "-q" });
+        Assert.assertTrue(ExtendingAbstractClass.quiet);
+    }
 }
