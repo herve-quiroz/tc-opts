@@ -179,6 +179,11 @@ public final class Options
             final Option option = method.getAnnotation(Option.class);
             if (option != null)
             {
+                if (option.required() && !methodsToInvoke.containsKey(method))
+                {
+                    throw new IllegalStateException("missing required option: " + option);
+                }
+
                 for (final Object[] parameter : methodsToInvoke.get(method))
                 {
                     final Object result;

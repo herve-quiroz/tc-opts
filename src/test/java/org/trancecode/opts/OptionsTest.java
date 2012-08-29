@@ -204,4 +204,26 @@ public final class OptionsTest
     {
         Options.execute(Launcher5.class, new String[] { "--one", "--two" });
     }
+
+    @Command("java -jar something.jar")
+    public static final class RequiredOption implements Runnable
+    {
+        @Option(longName = "one", description = "1", required = true)
+        public void setOne()
+        {
+            // nothing
+        }
+
+        @Override
+        public void run()
+        {
+            // nothing
+        }
+    }
+
+    @Test(expectedExceptions = IllegalStateException.class)
+    public void requiredOption()
+    {
+        Options.execute(RequiredOption.class, new String[] {});
+    }
 }
