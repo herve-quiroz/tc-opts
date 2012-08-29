@@ -15,8 +15,6 @@
  */
 package org.trancecode.opts;
 
-import com.google.common.base.Preconditions;
-
 /**
  * Convenient base class for common use cases (help, quiet and verbose
  * switches).

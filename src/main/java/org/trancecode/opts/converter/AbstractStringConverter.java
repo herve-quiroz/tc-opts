@@ -15,8 +15,9 @@
  */
 package org.trancecode.opts.converter;
 
-import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableSet;
+import java.util.Arrays;
+
+import org.trancecode.opts.Preconditions;
 
 /**
  * @author Herve Quiroz
@@ -28,8 +29,8 @@ public abstract class AbstractStringConverter implements StringConverter
     protected AbstractStringConverter(final Class<?>... sourceTypes)
     {
         Preconditions.checkNotNull(sourceTypes);
-        Preconditions.checkArgument(sourceTypes.length > 0);
-        this.sourceTypes = ImmutableSet.copyOf(sourceTypes);
+        Preconditions.checkArgument(sourceTypes.length > 0, "length = %s", sourceTypes.length);
+        this.sourceTypes = Arrays.asList(sourceTypes);
     }
 
     @Override

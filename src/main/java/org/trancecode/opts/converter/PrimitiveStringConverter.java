@@ -15,7 +15,7 @@
  */
 package org.trancecode.opts.converter;
 
-import com.google.common.base.Preconditions;
+import org.trancecode.opts.Preconditions;
 
 /**
  * @author Herve Quiroz

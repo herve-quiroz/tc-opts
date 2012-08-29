@@ -15,16 +15,10 @@
  */
 package org.trancecode.opts;
 
-import com.google.common.base.Preconditions;
-import com.google.common.base.Predicate;
-import com.google.common.base.Throwables;
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Multimap;
-
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
@@ -54,7 +48,7 @@ public final class Options
 
     private static Map<Option, Method> getOptions(final Class<?> type)
     {
-        final Map<Option, Method> options = Maps.newHashMapWithExpectedSize(type.getMethods().length);
+        final Map<Option, Method> options = new HashMap<Option, Method>();
         for (final Method method : type.getMethods())
         {
             final Option option = method.getAnnotation(Option.class);
@@ -88,31 +82,33 @@ public final class Options
             }
         }
 
-        return ImmutableMap.copyOf(options);
+        return options;
     }
 
     private static Option findOptionWithShortName(final Map<Option, Method> options, final String shortName)
     {
-        return Iterables.find(options.keySet(), new Predicate<Option>()
+        for (final Option option : options.keySet())
         {
-            @Override
-            public boolean apply(final Option option)
+            if (option.shortName().equals(shortName))
             {
-                return option.shortName().equals(shortName);
+                return option;
             }
-        }, null);
+        }
+
+        return null;
     }
 
     private static Option findOptionWithLongName(final Map<Option, Method> options, final String longName)
     {
-        return Iterables.find(options.keySet(), new Predicate<Option>()
+        for (final Option option : options.keySet())
         {
-            @Override
-            public boolean apply(final Option option)
+            if (option.longName().equals(longName))
             {
-                return option.longName().equals(longName);
+                return option;
             }
-        }, null);
+        }
+
+        return null;
     }
 
     /**
@@ -127,7 +123,7 @@ public final class Options
         Preconditions.checkNotNull(args);
 
         final Map<Option, Method> options = getOptions(launcherClass);
-        final Multimap<Method, Object[]> methodsToInvoke = ArrayListMultimap.create();
+        final Map<Method, List<Object[]>> methodsToInvoke = new HashMap<Method, List<Object[]>>();
 
         for (int argIndex = 0; argIndex < args.length; argIndex++)
         {
@@ -161,7 +157,11 @@ public final class Options
                 optionArgument = null;
             }
             final Object[] parameters = getParameters(method, optionArgument);
-            methodsToInvoke.put(method, parameters);
+            if (!methodsToInvoke.containsKey(method))
+            {
+                methodsToInvoke.put(method, new ArrayList<Object[]>());
+            }
+            methodsToInvoke.get(method).add(parameters);
         }
 
         final T launcher;
@@ -171,7 +171,11 @@ public final class Options
         }
         catch (final Exception e)
         {
-            throw Throwables.propagate(e);
+            if (e instanceof RuntimeException)
+            {
+                throw (RuntimeException) e;
+            }
+            throw new IllegalStateException(e);
         }
 
         for (final Method method : launcherClass.getMethods())
@@ -194,13 +198,36 @@ public final class Options
                     catch (final Exception e)
                     {
                         // TODO handle error code depending on the Exception
-                        throw Throwables.propagate(e);
+                        if (e instanceof RuntimeException)
+                        {
+                            throw (RuntimeException) e;
+                        }
+                        throw new IllegalStateException(e);
                     }
 
                     if (option.exit())
                     {
                         final int exitCode = getExitCode(result);
-                        return Maps.immutableEntry(launcher, exitCode);
+                        return new Map.Entry<T, Integer>()
+                        {
+                            @Override
+                            public T getKey()
+                            {
+                                return launcher;
+                            }
+
+                            @Override
+                            public Integer getValue()
+                            {
+                                return exitCode;
+                            }
+
+                            @Override
+                            public Integer setValue(final Integer value)
+                            {
+                                throw new UnsupportedOperationException();
+                            }
+                        };
                     }
                 }
             }
@@ -208,7 +235,26 @@ public final class Options
 
         launcher.run();
 
-        return Maps.immutableEntry(launcher, 0);
+        return new Map.Entry<T, Integer>()
+        {
+            @Override
+            public T getKey()
+            {
+                return launcher;
+            }
+
+            @Override
+            public Integer getValue()
+            {
+                return 0;
+            }
+
+            @Override
+            public Integer setValue(final Integer value)
+            {
+                throw new UnsupportedOperationException();
+            }
+        };
     }
 
     private static String getOptionArgumentPattern(final Method method)

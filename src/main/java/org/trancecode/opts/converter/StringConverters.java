@@ -15,9 +15,8 @@
  */
 package org.trancecode.opts.converter;
 
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
-
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.ServiceLoader;
@@ -31,7 +30,7 @@ public final class StringConverters
 
     static
     {
-        final Map<Class<?>, StringConverter> converters = Maps.newHashMap();
+        final Map<Class<?>, StringConverter> converters = new HashMap<Class<?>, StringConverter>();
         for (final StringConverter converter : ServiceLoader.load(StringConverter.class))
         {
             for (final Class<?> type : converter.getSourceTypes())
@@ -39,7 +38,7 @@ public final class StringConverters
                 converters.put(type, converter);
             }
         }
-        CONVERTERS = ImmutableMap.copyOf(converters);
+        CONVERTERS = Collections.unmodifiableMap(converters);
     }
 
     private StringConverters()
