@@ -15,7 +15,6 @@
  */
 package org.trancecode.opts;
 
-import org.trancecode.logging.Logger;
 
 /**
  * @author Herve Quiroz
@@ -23,22 +22,12 @@ import org.trancecode.logging.Logger;
 public final class CommandLineException extends RuntimeException
 {
     private static final long serialVersionUID = 3849840697709034812L;
-    private static final Logger LOG = Logger.getLogger(CommandLineException.class);
 
     private final int exitCode;
 
     private static String formatMessage(final String message, final Object... args)
     {
-        try
-        {
-            return String.format(message, args);
-        }
-        catch (final Exception e)
-        {
-            LOG.error("could not format '{}': {message}", message, e);
-            LOG.debug("{stackTrace}", e);
-            return message;
-        }
+        return String.format(message, args);
     }
 
     public CommandLineException(final Throwable cause, final int exitCode, final String message, final Object... args)
