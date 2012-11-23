@@ -226,6 +226,17 @@ following to the POM:
 
 == Release notes
 
+=== 0.5.1
+
+- Fix some NullPointerException
+
+=== 0.5.0
+
+- Fix an issue with required options
+- Remove dependency on commons-cli
+- Remove dependency on Guava
+- Remove dependency on tc-logging
+
 === 0.4.0
 
 - Added support for new option argument types: `QName`, `URI`, `URL`, `File`
