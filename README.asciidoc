@@ -59,6 +59,7 @@ http://docs.oracle.com/javase/6/docs/api/java/util/ServiceLoader.html[`ServiceLo
 By default, the option argument will display as `LABEL` in the command-line
 syntax help. You can change this label by using the `Argument` annotation:
 
+[source,java]
 ----
 @Option(shortName = "s", longName = "size", description = "set the size")
 @Argument(label = "NUMBER")
