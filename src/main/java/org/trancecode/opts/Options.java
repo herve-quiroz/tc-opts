@@ -46,12 +46,37 @@ public final class Options
         return "-" + option.shortName();
     }
 
+    private static Option getOption(final Method method)
+    {
+        final Option explicitOption = method.getAnnotation(Option.class);
+        if (explicitOption != null)
+        {
+            return explicitOption;
+        }
+
+        final Class<?> parentType = method.getDeclaringClass().getSuperclass();
+        if (parentType != Object.class)
+        {
+            try
+            {
+                final Method parentClassMethod = parentType.getMethod(method.getName(), method.getParameterTypes());
+                return getOption(parentClassMethod);
+            }
+            catch (final Exception e)
+            {
+                return null;
+            }
+        }
+
+        return null;
+    }
+
     private static Map<Option, Method> getOptions(final Class<?> type)
     {
         final Map<Option, Method> options = new HashMap<Option, Method>();
         for (final Method method : type.getMethods())
         {
-            final Option option = method.getAnnotation(Option.class);
+            final Option option = getOption(method);
             if (option != null)
             {
                 Preconditions.checkState(!option.description().isEmpty(), "@Option is missing a description: %s",
@@ -142,10 +167,10 @@ public final class Options
                 throw new IllegalArgumentException(arg);
             }
             Preconditions.checkArgument(option != null, "unknown option: %s", arg);
-            Preconditions.checkArgument(option.multiple() || !methodsToInvoke.containsKey(option),
-                    "duplicate option: %s", arg);
 
             final Method method = options.get(option);
+            Preconditions.checkArgument(option.multiple() || !methodsToInvoke.containsKey(method),
+                    "duplicate option: %s", arg);
             final String optionArgument;
             if (method.getParameterTypes().length > 0)
             {
@@ -180,7 +205,7 @@ public final class Options
 
         for (final Method method : launcherClass.getMethods())
         {
-            final Option option = method.getAnnotation(Option.class);
+            final Option option = getOption(method);
             if (option != null)
             {
                 if (option.required() && !methodsToInvoke.containsKey(method))
