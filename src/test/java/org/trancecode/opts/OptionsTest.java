@@ -236,6 +236,7 @@ public final class OptionsTest
         public void setQuiet()
         {
             quiet = true;
+            super.setQuiet();
         }
 
         @Override
@@ -249,11 +250,15 @@ public final class OptionsTest
     public void extendingAbstractClass()
     {
         // check that the option from parent class is handled
-        Options.execute(ExtendingAbstractClass.class, new String[] { "-v" });
+        final ExtendingAbstractClass result1 = Options.execute(ExtendingAbstractClass.class, new String[] { "-v" })
+                .getKey();
+        Assert.assertTrue(result1.isVerbose());
 
         // check that the option from child class is handled (although we did
         // not copy the annotations)
-        Options.execute(ExtendingAbstractClass.class, new String[] { "-q" });
+        final ExtendingAbstractClass result2 = Options.execute(ExtendingAbstractClass.class, new String[] { "-q" })
+                .getKey();
+        Assert.assertTrue(result2.isQuiet());
         Assert.assertTrue(ExtendingAbstractClass.quiet);
     }
 }
