@@ -25,7 +25,7 @@
   </licenses>
 
   <ciManagement>
-    <system>Jenins</system>
+    <system>Jenkins</system>
     <url>http://ci.trancecode.org/job/tc-opts</url>
   </ciManagement>
 
