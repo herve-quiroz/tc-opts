@@ -58,6 +58,20 @@
       <scope>test</scope>
     </dependency>
 
+    <dependency>
+      <groupId>org.trancecode.logging</groupId>
+      <artifactId>tc-logging-core</artifactId>
+      <version>0.3.0-SNAPSHOT</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.trancecode.logging</groupId>
+      <artifactId>tc-logging-simple</artifactId>
+      <version>0.3.0-SNAPSHOT</version>
+      <scope>provided</scope>
+    </dependency>
+
   </dependencies>
 
 </project>
